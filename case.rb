@@ -52,9 +52,11 @@ wfid = ruote.launch(pdef)
 sleep 0.7
 
 puts
-pp ruote.ps(wfid).expressions.map { |e|
+tree = ruote.ps(wfid).expressions.map { |e|
   [ e.name, e.fei.expid, e.fei.subid, e.state ].join(' ')
-}
+}.join("\n")
+puts tree
+File.open('tree0.txt', 'wb') { |f| f.puts(tree) }
 
 t = ruote.ps(wfid).expressions.find { |e| e.fei.expid == '0_0_0_0' }
 
@@ -66,9 +68,16 @@ ruote.re_apply(t)
 sleep 0.7
 
 puts
-pp ruote.ps(wfid).expressions.map { |e|
+tree = ruote.ps(wfid).expressions.map { |e|
   [ e.name, e.fei.expid, e.fei.subid, e.state ].join(' ')
-}
+}.join("\n")
+puts tree
+File.open('tree1.txt', 'wb') { |f| f.puts(tree) }
 
 puts
+
+system('diff -u tree0.txt tree1.txt')
+
+puts
+puts 'done.'
 
