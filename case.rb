@@ -13,7 +13,8 @@ ruote = Ruote::Dashboard.new(
   Ruote::Worker.new(
     Ruote::Redis::Storage.new('db' => 14, 'thread_safe' => true)))
 
-ruote.noisy = ENV['NOISY'] == 'true'
+#ruote.noisy = ENV['NOISY'] == 'true'
+ruote.noisy = true
 
 ruote.storage.purge!
 
@@ -48,7 +49,7 @@ end
 
 wfid = ruote.launch(pdef)
 
-sleep 1.5
+sleep 0.7
 
 pp ruote.ps(wfid).expressions.map { |e|
   [ e.name, e.fei.expid, e.fei.subid, e.state ].join(' ')
@@ -60,7 +61,7 @@ puts "re-applying: " + [ t.name, t.fei.expid, t.fei.subid, t.state ].join(' ')
 
 ruote.re_apply(t)
 
-sleep 1.5
+sleep 0.7
 
 pp ruote.ps(wfid).expressions.map { |e|
   [ e.name, e.fei.expid, e.fei.subid, e.state ].join(' ')
